@@ -240,9 +240,8 @@ body::before {
   line-height: 1;
   margin-top: 2px;
 }
-.price-currency { font-size: 0.78rem; font-weight: 700; margin-top: 6px; color: #FFD814; }
-.price-whole    { font-size: 2.4rem; font-weight: 700; color: #FFD814; text-shadow: 0 0 12px rgba(255,216,20,0.5); }
-.price-cents    { font-size: 0.78rem; font-weight: 700; margin-top: 6px; color: #FFD814; }
+.price-currency { font-size: 0.85rem; font-weight: 700; color: #FFD814; margin-right: 4px; }
+.price-whole    { font-size: 2rem; font-weight: 700; color: #FFD814; text-shadow: 0 0 12px rgba(255,216,20,0.5); }
 
 /* BOTON CARRITO */
 .btn-add-cart {
