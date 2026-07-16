@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Enitma - Tienda Digital</title>
+  <link rel="icon" type="image/png" href="logo de tienda.png" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- BURBUJAS FONDO -->
+  <canvas id="bubblesCanvas"></canvas>
+
+  <header class="site-header">
+    <div class="header-brand">
+      <img src="logo de tienda.png" alt="Enitma Logo" class="header-logo" />
+      <span class="header-title">Enitma - Tienda Digital</span>
+    </div>
+    <div class="header-cart" id="cartBtn">
+      <span class="cart-icon">🛒</span>
+      <span class="cart-count" id="cartCount">0</span>
+    </div>
+  </header>
+
+  <div class="store-banner">
+    <h1>🎧 Auriculares</h1>
+    <p>Calidad de sonido · Envío rápido</p>
+  </div>
+
+  <main class="products-grid" id="productsGrid"></main>
+
+  <!-- LIGHTBOX -->
+  <div class="lightbox-overlay" id="lightbox">
+    <div class="lightbox-inner">
+      <button class="lightbox-close" id="lightboxClose">✕</button>
+      <img id="lightboxImg" src="" alt="" />
+      <p class="lightbox-name" id="lightboxName"></p>
+    </div>
+  </div>
+
+  <!-- MODAL CARRITO -->
+  <div class="modal-overlay" id="cartModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>Tu carrito</h2>
+        <button class="modal-close" id="closeCart">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <div id="cartItems"></div>
+        <p class="cart-empty" id="cartEmpty">Tu carrito está vacío.</p>
+      </div>
+
+      <div class="modal-footer" id="cartFooter">
+        <div class="cart-total">
+          <span>Total a pagar hoy:</span>
+          <strong id="cartTotal">PEN 0.00</strong>
+        </div>
+        <a class="btn-whatsapp" href="https://wa.me/51933777848" target="_blank">
+          💬 Consultar
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
