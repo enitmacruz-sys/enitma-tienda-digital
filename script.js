@@ -176,8 +176,7 @@ function renderProducts() {
         <p class="product-name">${p.name}</p>
         <div class="product-price">
           <span class="price-currency">PEN</span>
-          <span class="price-whole">${whole}</span>
-          <span class="price-cents">${cents}</span>
+          <span class="price-whole">${p.price.toFixed(2)}</span>
         </div>
         <button class="btn-add-cart" data-id="${p.id}">🛒 Agregar al carrito</button>
       </div>
