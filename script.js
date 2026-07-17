@@ -125,8 +125,37 @@ const products = [
   {
     id: 4,
     name: 'Sound Earcuffs Auriculares Abiertos',
+    images: ['sound earcuffs.png', 'sound earcuffs (2).png'],
     image: 'sound earcuffs.png',
     price: 45.00,
+  },
+  {
+    id: 5,
+    name: 'CYXG X77 Auriculares TWS',
+    images: ['CYXG X77 (1).png', 'CYXG X77 (2).png'],
+    image: 'CYXG X77 (1).png',
+    price: null,
+  },
+  {
+    id: 6,
+    name: 'M85 Wireless Headphone V5.3',
+    images: ['M85 Wireless Headphone V5.3.png', 'M85 Wireless Headphone V5.3 (2).png'],
+    image: 'M85 Wireless Headphone V5.3.png',
+    price: null,
+  },
+  {
+    id: 7,
+    name: 'M100 Auriculares Gaming TWS',
+    images: ['M100 (1).png', 'M100 (2).png'],
+    image: 'M100 (1).png',
+    price: null,
+  },
+  {
+    id: 8,
+    name: 'JBL Tune Flex TWS',
+    images: ['JBL Tune Flex TWS (1).png', 'JBL Tune Flex TWS (2).png'],
+    image: 'JBL Tune Flex TWS (1).png',
+    price: null,
   }
 ];
 
@@ -165,24 +194,40 @@ function renderProducts() {
   if (!grid) return;
 
   grid.innerHTML = products.map(p => {
-    const { whole, cents } = formatPriceParts(p.price);
+    const priceHtml = p.price === null
+      ? `<div class="product-price"><span class="price-whole price-tbd">— — —</span></div>`
+      : `<div class="product-price">
+           <span class="price-currency">PEN</span>
+           <span class="price-whole">${p.price.toFixed(2)}</span>
+         </div>`;
+
+    const imgHtml = p.images
+      ? `<div class="card-img-wrap card-slider" data-img="${p.images[0]}" data-name="${p.name}" data-pid="${p.id}">
+           <div class="slider-track" id="track-${p.id}">
+             ${p.images.map(img => `<img class="slider-img" src="${img}" alt="${p.name}" />`).join('')}
+           </div>
+           <button class="slider-btn slider-prev" data-pid="${p.id}">&#8249;</button>
+           <button class="slider-btn slider-next" data-pid="${p.id}">&#8250;</button>
+           <span class="slider-counter" id="counter-${p.id}">1 / ${p.images.length}</span>
+           <span class="zoom-hint">🔍 Ver</span>
+         </div>`
+      : `<div class="card-img-wrap" data-img="${p.image}" data-name="${p.name}">
+           <img src="${p.image}" alt="${p.name}"
+             onerror="this.src='https://via.placeholder.com/300x300?text=Sin+imagen'" />
+           <span class="zoom-hint">🔍 Ver</span>
+         </div>`;
+
     return `
       <div class="product-card" data-id="${p.id}">
-        <div class="card-img-wrap" data-img="${p.image}" data-name="${p.name}">
-          <img src="${p.image}" alt="${p.name}"
-            onerror="this.src='https://via.placeholder.com/300x300?text=Sin+imagen'" />
-          <span class="zoom-hint">🔍 Ver</span>
-        </div>
+        ${imgHtml}
         <p class="product-name">${p.name}</p>
-        <div class="product-price">
-          <span class="price-currency">PEN</span>
-          <span class="price-whole">${p.price.toFixed(2)}</span>
-        </div>
+        ${priceHtml}
         <button class="btn-add-cart" data-id="${p.id}">🛒 Agregar al carrito</button>
       </div>
     `;
   }).join('');
 
+  /* Botones carrito */
   grid.querySelectorAll('.btn-add-cart').forEach(btn => {
     btn.addEventListener('click', e => {
       e.stopPropagation();
@@ -192,6 +237,7 @@ function renderProducts() {
     });
   });
 
+  /* Tilt 3D */
   grid.querySelectorAll('.product-card').forEach(card => {
     card.addEventListener('mousemove', e => {
       const r = card.getBoundingClientRect();
@@ -202,10 +248,40 @@ function renderProducts() {
     card.addEventListener('mouseleave', () => { card.style.transform = ''; });
   });
 
-  grid.querySelectorAll('.card-img-wrap').forEach(wrap => {
+  /* Lightbox en imágenes simples */
+  grid.querySelectorAll('.card-img-wrap:not(.card-slider)').forEach(wrap => {
     wrap.addEventListener('click', e => {
       e.stopPropagation();
       openLightbox(wrap.dataset.img, wrap.dataset.name);
+    });
+  });
+
+  /* Slider logic — flechas cambian foto, click en imagen abre lightbox */
+  grid.querySelectorAll('.card-slider').forEach(wrap => {
+    const pid  = parseInt(wrap.dataset.pid);
+    const imgs = products.find(p => p.id === pid).images;
+    let idx = 0;
+
+    function goTo(i) {
+      idx = (i + imgs.length) % imgs.length;
+      document.getElementById('track-' + pid).style.transform = `translateX(-${idx * 100}%)`;
+      wrap.dataset.img = imgs[idx];
+      document.getElementById('counter-' + pid).textContent = `${idx + 1} / ${imgs.length}`;
+    }
+
+    wrap.querySelector('.slider-prev').addEventListener('click', e => {
+      e.stopPropagation(); goTo(idx - 1);
+    });
+    wrap.querySelector('.slider-next').addEventListener('click', e => {
+      e.stopPropagation(); goTo(idx + 1);
+    });
+
+    /* click en la imagen → lightbox */
+    wrap.querySelectorAll('.slider-img').forEach(img => {
+      img.addEventListener('click', e => {
+        e.stopPropagation();
+        openLightbox(wrap.dataset.img, wrap.dataset.name);
+      });
     });
   });
 }
@@ -269,7 +345,7 @@ function renderCartItems() {
           onerror="this.src='https://via.placeholder.com/64x64?text=?'" />
         <div class="cart-item-info">
           <p class="cart-item-name">${p.name}</p>
-          <p class="cart-item-price">PEN ${(p.price * item.qty).toFixed(2)}</p>
+          <p class="cart-item-price">${p.price !== null ? 'PEN ' + (p.price * item.qty).toFixed(2) : '— — —'}</p>
           <div class="qty-control">
             <button class="qty-btn" data-id="${p.id}" data-delta="-1">−</button>
             <span class="qty-num">${item.qty}</span>
