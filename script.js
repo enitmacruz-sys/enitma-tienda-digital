@@ -120,7 +120,7 @@ const products = [
     id: 3,
     name: 'OWS PRO Auriculares Inalámbricos',
     image: 'OWS PRO.png',
-    price: 35.00,
+    price: 30.00,
   },
   {
     id: 4,
@@ -134,28 +134,28 @@ const products = [
     name: 'CYXG X77 Auriculares TWS',
     images: ['CYXG X77 (1).png', 'CYXG X77 (2).png'],
     image: 'CYXG X77 (1).png',
-    price: null,
+    price: 49.50,
   },
   {
     id: 6,
     name: 'M85 Wireless Headphone V5.3',
     images: ['M85 Wireless Headphone V5.3.png', 'M85 Wireless Headphone V5.3 (2).png'],
     image: 'M85 Wireless Headphone V5.3.png',
-    price: null,
+    price: 36.00,
   },
   {
     id: 7,
     name: 'M100 Auriculares Gaming TWS',
     images: ['M100 (1).png', 'M100 (2).png'],
     image: 'M100 (1).png',
-    price: null,
+    price: 52.00,
   },
   {
     id: 8,
     name: 'JBL Tune Flex TWS',
     images: ['JBL Tune Flex TWS (1).png', 'JBL Tune Flex TWS (2).png'],
     image: 'JBL Tune Flex TWS (1).png',
-    price: null,
+    price: 122.00,
   }
 ];
 
